@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { LiquidGlass } from 'simple-liquid-glass';
 import { LiquidGlassScene } from 'simple-liquid-glass/backdrop';
 import type { AnalysisResult, Locale, SourceRecord, StudentProfile } from '@/lib/types';
@@ -12,6 +12,10 @@ const lensOptions = { strength: 0.075, depth: 0.3, curvature: 0.48, bend: 0.24, 
 
 function GlassControl({ children, height = 44, radius = 14 }: { children: ReactNode; height?: number; radius?: number }) {
   return <LiquidGlass className="field-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.035, bend: 0.12 }} quality="high" scale={24} radius={radius} blur={0.8} frost={0.025} saturation={112} dispersion={10} aberrationIntensity={0.06} glassColor="rgba(255,255,255,0.07)" borderColor="rgba(255,255,255,0.76)" style={{ width: '100%', height, borderRadius: radius }}>{children}</LiquidGlass>;
+}
+
+function GlassButton({ children, className = '', height = 42, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { height?: number }) {
+  return <LiquidGlass className="button-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.025, bend: 0.1 }} quality="standard" scale={18} radius={15} blur={0.8} frost={0.025} saturation={112} dispersion={8} aberrationIntensity={0.04} glassColor="rgba(255,255,255,0.08)" borderColor="rgba(255,255,255,0.8)" style={{ width: 'max-content', minWidth: 42, height, borderRadius: 15 }}><button {...props} className={className}>{children}</button></LiquidGlass>;
 }
 
 const copy = {
@@ -83,7 +87,7 @@ export default function Home() {
     <nav className="topbar-frame" aria-label="Main navigation">
       <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={76} radius={17} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.055)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
         <div className="topbar-content"><a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
-        <div className="nav-right"><span className="nav-note">{t.supported}</span><button className="language" onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</button></div></div>
+        <div className="nav-right"><span className="nav-note">{t.supported}</span><GlassButton className="language" height={44} onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</GlassButton></div></div>
       </LiquidGlass>
     </nav>
 
@@ -100,7 +104,7 @@ export default function Home() {
     <div className="workspace">
       <form onSubmit={submit} className="input-column">
         <section className="form-section">
-          <div className="section-heading"><div><p className="section-index">01 / {t.role}</p><h2>{t.profile}</h2></div><button type="button" className="text-button" onClick={() => { setProfile({ degree: 'BSc Computer Science', yearOfStudy: 'Year 3', expectedGraduation: 'June 2027', skills: 'Python, SQL, data analysis', workAuthorization: 'Non-local student; unsure whether this role qualifies under my current conditions.' }); setJobDescription(sampleDescription); }}>{t.example} <span>↗</span></button></div>
+          <div className="section-heading"><div><p className="section-index">01 / {t.role}</p><h2>{t.profile}</h2></div><GlassButton type="button" className="text-button" height={38} onClick={() => { setProfile({ degree: 'BSc Computer Science', yearOfStudy: 'Year 3', expectedGraduation: 'June 2027', skills: 'Python, SQL, data analysis', workAuthorization: 'Non-local student; unsure whether this role qualifies under my current conditions.' }); setJobDescription(sampleDescription); }}>{t.example} <span>↗</span></GlassButton></div>
           <p className="section-note">{t.profileHint}</p>
           <div className="fields-grid">
             <label className="field"><span>{t.degree}</span><GlassControl><input value={profile.degree} onChange={(e) => setField('degree', e.target.value)} placeholder={t.degreePlaceholder} autoComplete="off" /></GlassControl></label>
@@ -112,12 +116,12 @@ export default function Home() {
         </section>
 
         <section className="form-section job-section">
-          <div className="section-heading"><div><p className="section-index">02 / {locale === 'zh-Hant' ? '職位資訊' : 'JOB POSTING'}</p><h2>{t.jd}</h2></div><button type="button" className="text-button" onClick={clearForm}>{t.clear} <span>×</span></button></div>
+          <div className="section-heading"><div><p className="section-index">02 / {locale === 'zh-Hant' ? '職位資訊' : 'JOB POSTING'}</p><h2>{t.jd}</h2></div><GlassButton type="button" className="text-button" height={38} onClick={clearForm}>{t.clear} <span>×</span></GlassButton></div>
           <p className="section-note">{t.jdHint}</p>
           <label className="field"><span>{t.url}</span><GlassControl><input type="url" value={jobUrl} onChange={(e) => setJobUrl(e.target.value)} placeholder="https://…" autoComplete="off" /></GlassControl></label>
           <label className="field textarea-field"><GlassControl height={210} radius={18}><textarea value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} placeholder={locale === 'zh-Hant' ? '在此貼上職位描述…' : 'Paste the job description here…'} rows={12} /></GlassControl></label>
           {error && <p className="error-message" role="alert">{error}</p>}
-          <div className="submit-row"><button type="submit" className="submit-button" disabled={loading}>{loading ? t.analyzing : t.analyze}<span aria-hidden="true">↗</span></button><span className="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2m-9 0h10v7H3V7Z"/></svg>{t.privacy}</span></div>
+          <div className="submit-row"><GlassButton type="submit" className="submit-button" height={50} disabled={loading}>{loading ? t.analyzing : t.analyze}<span aria-hidden="true">↗</span></GlassButton><span className="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2m-9 0h10v7H3V7Z"/></svg>{t.privacy}</span></div>
         </section>
       </form>
 
@@ -129,7 +133,7 @@ export default function Home() {
           </section>
           <section className="result-group credibility-group"><div className="result-title"><span className="result-number">B</span><div><p className="section-index">{locale === 'zh-Hant' ? '公開資訊' : 'PUBLIC INFORMATION'}</p><h3>{t.credibility}</h3></div></div><p className="result-summary">{report.credibility.summary}</p>
             <div className="requirement-list">{report.credibility.signals.map((signal, index) => <article className="requirement-row signal-row" key={`${signal.signal}-${index}`}><div className="requirement-top"><span className="row-number">S{String(index + 1).padStart(2, '0')}</span><h4>{signal.signal}</h4><StatusPill status={signal.status} locale={locale} /></div><p className="explanation">{signal.explanation}</p>{signal.evidence && <blockquote><span>{t.evidence}</span><q>{signal.evidence}</q></blockquote>}{signal.sourceUrl && <a className="source-proof" href={signal.sourceUrl} target="_blank" rel="noreferrer">{locale === 'zh-Hant' ? '查看來源 ↗' : 'View source ↗'}</a>}</article>)}</div><p className="disclaimer">{report.credibility.disclaimer}</p>
-          </section><button className="text-button restart" onClick={clearForm}>{t.startAgain} ↗</button>
+          </section><GlassButton className="text-button restart" onClick={clearForm}>{t.startAgain} ↗</GlassButton>
         </div> : <div className="report-placeholder"><div className="placeholder-lines"><span/><span/><span/><span/><span/></div><div className="placeholder-note"><span>—</span><p>{t.noSaving}</p></div></div>}
       </aside>
     </div>
