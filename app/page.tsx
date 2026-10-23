@@ -8,14 +8,14 @@ import type { AnalysisResult, Locale, SourceRecord, StudentProfile } from '@/lib
 
 const emptyProfile: StudentProfile = { degree: '', yearOfStudy: '', expectedGraduation: '', skills: '', workAuthorization: '' };
 const sampleDescription = `Summer Data Analyst Intern\n\nEligibility\n• Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.\n• Expected graduation between December 2026 and June 2028.\n• Available to work full-time for 10 weeks from June 2026.\n\nWhat you bring\n• Comfortable using Python and SQL for data analysis.\n• Strong written and spoken English.\n\nThis fictional sample is for product demonstration only.`;
-const lensOptions = { strength: 0.075, depth: 0.3, curvature: 0.48, bend: 0.24, bendWidth: 0.12, sheen: 0.9, sheenWidth: 3, specular: 1.5, glow: 0.1 } as const;
+const lensOptions = { strength: 0.09, depth: 0.3, curvature: 0.48, bend: 0.24, bendWidth: 0.12, sheen: 0.9, sheenWidth: 3, specular: 1.5, glow: 0.1 } as const;
 
 function GlassControl({ children, height = 44, radius = 14 }: { children: ReactNode; height?: number; radius?: number }) {
-  return <LiquidGlass className="field-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.035, bend: 0.12 }} quality="high" scale={24} radius={radius} blur={0.8} frost={0.025} saturation={112} dispersion={10} aberrationIntensity={0.06} glassColor="rgba(255,255,255,0.07)" borderColor="rgba(255,255,255,0.76)" style={{ width: '100%', height, borderRadius: radius }}>{children}</LiquidGlass>;
+  return <LiquidGlass className="field-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.045, bend: 0.12 }} quality="high" scale={28} radius={radius} blur={0.8} frost={0.025} saturation={112} dispersion={10} aberrationIntensity={0.06} glassColor="rgba(255,255,255,0.07)" borderColor="rgba(255,255,255,0.76)" style={{ width: '100%', height, borderRadius: radius }}>{children}</LiquidGlass>;
 }
 
 function GlassButton({ children, className = '', height = 42, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { height?: number }) {
-  return <LiquidGlass className="button-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.025, bend: 0.1 }} quality="standard" scale={18} radius={15} blur={0.8} frost={0.025} saturation={112} dispersion={8} aberrationIntensity={0.04} glassColor="rgba(255,255,255,0.08)" borderColor="rgba(255,255,255,0.8)" style={{ width: 'max-content', minWidth: 42, height, borderRadius: 15 }}><button {...props} className={className}>{children}</button></LiquidGlass>;
+  return <LiquidGlass className="button-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.032, bend: 0.1 }} quality="standard" scale={22} radius={15} blur={0.8} frost={0.025} saturation={112} dispersion={8} aberrationIntensity={0.04} glassColor="rgba(255,255,255,0.08)" borderColor="rgba(255,255,255,0.8)" style={{ width: 'max-content', minWidth: 42, height, borderRadius: 15 }}><button {...props} className={className}>{children}</button></LiquidGlass>;
 }
 
 const copy = {
@@ -85,7 +85,7 @@ export default function Home() {
   return <LiquidGlassScene className="liquid-glass-scene">
    <main>
     <nav className="topbar-frame" aria-label="Main navigation">
-      <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={76} radius={17} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.055)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
+      <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={86} radius={17} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.055)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
         <div className="topbar-content"><a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
         <div className="nav-right"><span className="nav-note">{t.supported}</span><GlassButton className="language" height={44} onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</GlassButton></div></div>
       </LiquidGlass>
@@ -98,7 +98,7 @@ export default function Home() {
         <p className="intro">{t.intro}</p>
         <div className="hero-meta"><span>{locale === 'zh-Hant' ? '01 — 閱讀' : '01 — READ'}</span><span>{locale === 'zh-Hant' ? '02 — 對照' : '02 — COMPARE'}</span><span>{locale === 'zh-Hant' ? '03 — 核對' : '03 — REVIEW'}</span></div>
       </div>
-      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><LiquidGlass className="orbit-center liquid-lens" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={68} radius={68} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.045)" borderColor="rgba(255,255,255,0.82)" style={{ width: 136, height: 136, borderRadius: 68 }}><Mark /></LiquidGlass><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
+      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><LiquidGlass className="orbit-center liquid-lens" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={78} radius={68} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.045)" borderColor="rgba(255,255,255,0.82)" style={{ width: 136, height: 136, borderRadius: 68 }}><Mark /></LiquidGlass><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
     </section>
 
     <div className="workspace">
