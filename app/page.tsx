@@ -71,7 +71,13 @@ export default function Home() {
   }
 
   return <main>
-    <nav className="topbar glass" aria-label="Main navigation">
+    <svg className="glass-definitions" aria-hidden="true" focusable="false">
+      <filter id="internlens-refraction" x="-12%" y="-35%" width="124%" height="170%" colorInterpolationFilters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="8" result="glassMap" />
+        <feDisplacementMap in="SourceGraphic" in2="glassMap" scale="13" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+    <nav className="topbar glass refractive-glass" aria-label="Main navigation">
       <a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
       <div className="nav-right"><span className="nav-note">{t.supported}</span><button className="language" onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</button></div>
     </nav>
@@ -83,7 +89,7 @@ export default function Home() {
         <p className="intro">{t.intro}</p>
         <div className="hero-meta"><span>{locale === 'zh-Hant' ? '01 — 閱讀' : '01 — READ'}</span><span>{locale === 'zh-Hant' ? '02 — 對照' : '02 — COMPARE'}</span><span>{locale === 'zh-Hant' ? '03 — 核對' : '03 — REVIEW'}</span></div>
       </div>
-      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><div className="orbit-center"><Mark /></div><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
+      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><div className="orbit-center refractive-glass"><Mark /></div><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
     </section>
 
     <div className="workspace">

@@ -13,3 +13,15 @@
 .inline-source{margin-left:5px;color:#47836b;font-size:9px;font-weight:500}
 
 :focus-visible{outline:2px solid #377c63;outline-offset:3px}
+
+/* A small SVG displacement filter gives the navigation and mark a true lens edge. */
+.glass-definitions{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.refractive-glass{position:relative;isolation:isolate;overflow:hidden}
+.refractive-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;border:1px solid rgba(255,255,255,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.88),inset 0 -1px 0 rgba(89,154,126,.15);background:linear-gradient(116deg,rgba(255,255,255,.21),transparent 34%,rgba(255,255,255,.06) 67%,rgba(255,255,255,.18))}
+.refractive-glass>*{position:relative;z-index:1}
+.orbit-center.refractive-glass::before{border-radius:50%;box-shadow:inset 0 1px 2px rgba(255,255,255,.98),inset 0 -5px 12px rgba(82,155,123,.16),0 0 18px rgba(255,255,255,.25)}
+@supports (backdrop-filter:url(#internlens-refraction)){
+  .topbar.refractive-glass{backdrop-filter:url(#internlens-refraction) blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5)}
+  .orbit-center.refractive-glass{backdrop-filter:url(#internlens-refraction) blur(12px) saturate(1.4);-webkit-backdrop-filter:blur(12px) saturate(1.4)}
+}
+@media(max-width:720px){.topbar.refractive-glass::before{background:linear-gradient(116deg,rgba(255,255,255,.16),transparent 40%,rgba(255,255,255,.12))}}
