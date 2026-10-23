@@ -1,0 +1,93 @@
+[
+  {
+    "id": "hku-netjobs",
+    "name": "HKU NETjobs",
+    "nameZh": "港大 NETjobs",
+    "url": "https://www.cedars.hku.hk/netjobs",
+    "category": "University career portal",
+    "categoryZh": "大學招聘平台",
+    "trustLevel": "official-channel",
+    "storagePolicy": "link-only",
+    "policyEvidence": "CEDARS terms prohibit downloading, copying, or reproducing job content without permission.",
+    "policyUrl": "https://web2.cedars.hku.hk/jobs/terms.php",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "hku-china-vision",
+    "name": "HKU China Vision Internship Programme",
+    "nameZh": "港大 China Vision 實習計劃",
+    "url": "https://www.chinavision.hku.hk/programmes-internship",
+    "category": "University internship programme",
+    "categoryZh": "大學實習計劃",
+    "trustLevel": "official-channel",
+    "storagePolicy": "link-only",
+    "policyEvidence": "Public programme pages are listed for discovery; no listing-reuse permission was confirmed.",
+    "policyUrl": "https://www.mainlandaffairs.hku.hk/chinavision",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "hku-tec-eip",
+    "name": "HKU Entrepreneurship Internship Programme",
+    "nameZh": "港大創業實習計劃",
+    "url": "https://tec.hku.hk/eip2026/",
+    "category": "University internship programme",
+    "categoryZh": "大學實習計劃",
+    "trustLevel": "official-channel",
+    "storagePolicy": "link-only",
+    "policyEvidence": "Official programme information; listing-reuse permission has not been confirmed.",
+    "policyUrl": "https://tec.hku.hk/eip2026/",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "jijis",
+    "name": "JIJIS",
+    "nameZh": "專上院校聯校就業資訊系統",
+    "url": "https://www.jijis.org.hk/",
+    "category": "UGC-funded university career portal",
+    "categoryZh": "教資會資助院校就業平台",
+    "trustLevel": "university-network",
+    "storagePolicy": "link-only",
+    "policyEvidence": "Directory listing only; confirm applicable terms before importing job records.",
+    "policyUrl": "https://www.cedars-cp.hku.hk/careernavigator",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "csb-summer-internship",
+    "name": "HKSAR Post-Secondary Student Summer Internship Programme",
+    "nameZh": "香港特區政府專上學生暑期實習計劃",
+    "url": "https://www.csb.gov.hk/english/admin/appoint/782.html",
+    "category": "Government internship programme",
+    "categoryZh": "政府實習計劃",
+    "trustLevel": "official-government",
+    "storagePolicy": "page-review-required",
+    "policyEvidence": "CSB copyright notice permits non-commercial redistribution with attribution; verify each source page before importing.",
+    "policyUrl": "https://csboa.csb.gov.hk/csboa/general/copyright.jsp",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "cedars-career-navigator",
+    "name": "CEDARS Career Navigator",
+    "nameZh": "CEDARS 職業導航",
+    "url": "https://www.cedars-cp.hku.hk/careernavigator",
+    "category": "HKU career and internship programmes",
+    "categoryZh": "港大就業與實習計劃",
+    "trustLevel": "official-channel",
+    "storagePolicy": "link-only",
+    "policyEvidence": "CEDARS discovery page for university job and internship routes; individual listing reuse terms must be checked.",
+    "policyUrl": "https://www.cedars-cp.hku.hk/careernavigator",
+    "lastReviewed": "2026-10-23"
+  },
+  {
+    "id": "ydc-un-volunteer-internship",
+    "name": "YDC / HYAB UN Volunteer Internship Programme",
+    "nameZh": "青年發展委員會／民政及青年事務局聯合國義工實習計劃",
+    "url": "https://www.ydc.gov.hk/en/programmes/ip/ip_unv.html",
+    "category": "Government-supported internship programme",
+    "categoryZh": "政府支援實習計劃",
+    "trustLevel": "official-government",
+    "storagePolicy": "link-only",
+    "policyEvidence": "Official programme page; listing-reuse permission has not been confirmed.",
+    "policyUrl": "https://www.ydc.gov.hk/en/programmes/ip/ip_unv.html",
+    "lastReviewed": "2026-10-23"
+  }
+]

@@ -1,0 +1,11 @@
+services:
+  internlens:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env.local
+        required: false
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
