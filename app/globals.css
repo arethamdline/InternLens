@@ -87,3 +87,10 @@ h2{font-weight:600;letter-spacing:-.055em}
 .button-glass button:focus-visible{outline:2px solid #377c63;outline-offset:-4px}
 @media(max-width:720px){.topbar-frame{top:7px!important}.button-glass:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.button-glass{transition:none!important}.button-glass:hover{transform:none!important}}
+.button-glass{position:relative}
+.button-glass::before{content:"";position:absolute;inset:-45% -70%;z-index:2;pointer-events:none;opacity:0;transform:translateX(-58%) rotate(12deg);background:linear-gradient(90deg,transparent 40%,rgba(255,255,255,.12) 45%,rgba(255,255,255,.72) 49%,rgba(183,255,231,.38) 52%,rgba(255,255,255,.12) 56%,transparent 62%);filter:blur(1.2px);transition:transform .72s cubic-bezier(.2,.7,.2,1),opacity .2s ease}
+.button-glass:hover::before,.button-glass:focus-within::before{opacity:.95;transform:translateX(58%) rotate(12deg)}
+.button-glass:hover::after,.button-glass:focus-within::after{background:linear-gradient(125deg,rgba(255,255,255,.42),rgba(255,255,255,.08) 38%,transparent 72%,rgba(182,255,224,.18))}
+.button-glass:hover button,.button-glass:focus-within button{background:rgba(255,255,255,.16);filter:brightness(1.04)}
+.button-glass:hover .submit-button,.button-glass:focus-within .submit-button{background:linear-gradient(115deg,rgba(33,103,78,.96),rgba(48,143,106,.93) 58%,rgba(66,159,128,.9))}
+@media(prefers-reduced-motion:reduce){.button-glass::before{transition:none!important}.button-glass:hover::before,.button-glass:focus-within::before{transform:none}}
