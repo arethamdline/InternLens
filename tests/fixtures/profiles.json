@@ -1,0 +1,8 @@
+[
+  {"degree":"BSc Computer Science","yearOfStudy":"Year 2","expectedGraduation":"June 2028","skills":"Python","workAuthorization":"Local student"},
+  {"degree":"BBA Finance","yearOfStudy":"Year 3","expectedGraduation":"December 2027","skills":"Excel, accounting","workAuthorization":"Local student"},
+  {"degree":"BA Economics","yearOfStudy":"Year 1","expectedGraduation":"June 2029","skills":"Research","workAuthorization":"Local student"},
+  {"degree":"BEng Mechanical Engineering","yearOfStudy":"Year 4","expectedGraduation":"June 2027","skills":"CAD, Python","workAuthorization":"Local student"},
+  {"degree":"MSc Data Science","yearOfStudy":"Postgraduate","expectedGraduation":"December 2026","skills":"SQL, Python, statistics","workAuthorization":"Non-local student; conditions to be confirmed"},
+  {"degree":"LLB","yearOfStudy":"Year 2","expectedGraduation":"June 2028","skills":"Writing, research","workAuthorization":"Unsure"}
+]

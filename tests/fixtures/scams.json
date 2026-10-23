@@ -1,0 +1,7 @@
+[
+  {"name":"application fee","description":"Pay an application fee before your interview to reserve a slot."},
+  {"name":"training fee","description":"Pay a training fee before the internship begins."},
+  {"name":"money transfer","description":"Transfer funds to our coordinator to activate your internship account."},
+  {"name":"equipment purchase","description":"Purchase a laptop through our assigned vendor before your first day."},
+  {"name":"identity document before interview","description":"Submit your passport before the interview so we can proceed."}
+]
