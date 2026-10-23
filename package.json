@@ -12,7 +12,8 @@
   "dependencies": {
     "next": "15.5.28",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "simple-liquid-glass": "^5.4.0"
   },
   "devDependencies": {
     "@types/node": "22.19.19",

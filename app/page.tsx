@@ -1,10 +1,13 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { LiquidGlass } from 'simple-liquid-glass';
+import { LiquidGlassScene } from 'simple-liquid-glass/backdrop';
 import type { AnalysisResult, Locale, SourceRecord, StudentProfile } from '@/lib/types';
 
 const emptyProfile: StudentProfile = { degree: '', yearOfStudy: '', expectedGraduation: '', skills: '', workAuthorization: '' };
 const sampleDescription = `Summer Data Analyst Intern\n\nEligibility\n• Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.\n• Expected graduation between December 2026 and June 2028.\n• Available to work full-time for 10 weeks from June 2026.\n\nWhat you bring\n• Comfortable using Python and SQL for data analysis.\n• Strong written and spoken English.\n\nThis fictional sample is for product demonstration only.`;
+const lensOptions = { strength: 0.28, depth: 0.34, curvature: 0.72, bend: 0.82, bendWidth: 0.28, sheen: 1.8, sheenWidth: 14, specular: 2.2, glow: 0.16 } as const;
 
 const copy = {
   en: {
@@ -70,16 +73,13 @@ export default function Home() {
     setProfile(emptyProfile); setJobDescription(''); setJobUrl(''); setReport(null); setError('');
   }
 
-  return <main>
-    <svg className="glass-definitions" aria-hidden="true" focusable="false">
-      <filter id="internlens-refraction" x="-12%" y="-35%" width="124%" height="170%" colorInterpolationFilters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="8" result="glassMap" />
-        <feDisplacementMap in="SourceGraphic" in2="glassMap" scale="13" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </svg>
-    <nav className="topbar glass refractive-glass" aria-label="Main navigation">
-      <a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
-      <div className="nav-right"><span className="nav-note">{t.supported}</span><button className="language" onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</button></div>
+  return <LiquidGlassScene className="liquid-glass-scene">
+   <main>
+    <nav className="topbar-frame" aria-label="Main navigation">
+      <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="loupe" lensOptions={lensOptions} quality="high" scale={280} radius={17} blur={0} frost={0} saturation={125} dispersion={50} aberrationIntensity={0.32} glassColor="rgba(255,255,255,0.035)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
+        <div className="topbar-content"><a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
+        <div className="nav-right"><span className="nav-note">{t.supported}</span><button className="language" onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</button></div></div>
+      </LiquidGlass>
     </nav>
 
     <section className="hero" id="top">
@@ -89,7 +89,7 @@ export default function Home() {
         <p className="intro">{t.intro}</p>
         <div className="hero-meta"><span>{locale === 'zh-Hant' ? '01 — 閱讀' : '01 — READ'}</span><span>{locale === 'zh-Hant' ? '02 — 對照' : '02 — COMPARE'}</span><span>{locale === 'zh-Hant' ? '03 — 核對' : '03 — REVIEW'}</span></div>
       </div>
-      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><div className="orbit-center refractive-glass"><Mark /></div><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
+      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><LiquidGlass className="orbit-center liquid-lens" renderer="webgl" material="clear" refraction="lens" lensProfile="loupe" lensOptions={lensOptions} quality="high" scale={240} radius={68} blur={0} frost={0} saturation={125} dispersion={50} aberrationIntensity={0.32} glassColor="rgba(255,255,255,0.025)" borderColor="rgba(255,255,255,0.82)" style={{ width: 136, height: 136, borderRadius: 68 }}><Mark /></LiquidGlass><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
     </section>
 
     <div className="workspace">
@@ -132,5 +132,6 @@ export default function Home() {
     <section className="sources-section" id="sources"><div className="sources-intro"><p className="section-index">{t.directory} / {String(groupedSources.length).padStart(2, '0')}</p><h2>{t.sources}</h2><p>{t.sourcesHint}</p></div><div className="source-list">{groupedSources.map((source, index) => <article className="source-item" key={source.id}><span className="source-index">{String(index + 1).padStart(2, '0')}</span><div className="source-name"><a href={source.url} target="_blank" rel="noreferrer">{locale === 'zh-Hant' ? source.nameZh : source.name} <span>↗</span></a><p>{locale === 'zh-Hant' ? source.categoryZh : source.category}</p></div><div className="source-policy"><span>{t.storage}</span><p>{source.storagePolicy === 'link-only' ? t.linkOnly : source.storagePolicy === 'licensed' ? t.licensed : t.pageReview}</p></div><div className="source-policy source-date"><span>{t.reviewed}</span><p>{source.lastReviewed}</p></div><a className="policy-link" href={source.policyUrl} target="_blank" rel="noreferrer" aria-label="Review source policy">↗</a></article>)}</div></section>
 
     <footer className="footer"><a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a><p>{t.disclaimer}</p><a href="#sources">{t.directory} ↑</a></footer>
-  </main>;
+   </main>
+  </LiquidGlassScene>;
 }
