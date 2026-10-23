@@ -52,3 +52,27 @@ h2{font-weight:600;letter-spacing:-.055em}
 .footer{max-width:none;padding:23px max(42px,calc((100vw - 1236px)/2)) 32px;border-color:rgba(224,245,233,.16);background:#112a26;color:#eaf3ee}.footer .brand b{color:rgba(226,241,233,.56);border-color:rgba(224,245,233,.24)}.footer p{color:rgba(226,241,233,.52)}.footer>a:last-child{color:#b8dfca}
 @media(max-width:720px){h1{font-size:clamp(46px,12vw,68px)}.hero{padding-top:72px}.sources-section{padding:38px 24px 52px;border-radius:25px 25px 0 0}.footer{padding:22px 24px 28px}}
 @media(prefers-reduced-motion:reduce){.topbar-glass::after{animation:none;background-position:45% 0}}
+
+/* Keep the page in a shallow 3D scene and let glass controls sit above it. */
+.liquid-glass-scene{perspective:1500px;perspective-origin:50% 0;transform-style:preserve-3d;overflow:clip}
+.topbar-frame{position:relative!important;top:auto!important;transform:translateZ(32px)}
+.topbar-glass{overflow:hidden;isolation:isolate;box-shadow:0 20px 46px rgba(28,68,54,.12),inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(104,178,144,.16)}
+.hero{transform-style:preserve-3d}
+.hero-copy{transform:translateZ(22px)}
+.hero-orbit{transform-style:preserve-3d;transform:translateZ(42px)}
+.orbit-ring{box-shadow:0 8px 28px rgba(70,143,110,.08)}
+.orbit-center{transform:translateZ(34px);box-shadow:0 28px 64px rgba(31,107,81,.18),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -8px 22px rgba(93,190,154,.12)}
+.liquid-lens>div:last-child{display:grid!important;place-items:center!important}
+.workspace{transform-style:preserve-3d}
+.input-column{transform:translateZ(10px)}
+.report-column{transform:translateZ(24px)}
+.form-section{transform-style:preserve-3d}
+.field-glass{display:block;overflow:hidden;border:1px solid rgba(255,255,255,.74);background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(211,234,221,.035) 60%,rgba(255,255,255,.08));box-shadow:0 10px 24px rgba(33,76,58,.075),inset 0 1px 0 rgba(255,255,255,.88),inset 0 -1px 0 rgba(88,154,120,.12);transition:transform .24s ease,box-shadow .24s ease}
+.field-glass:hover{transform:translateY(-1px) translateZ(8px);box-shadow:0 14px 30px rgba(33,76,58,.11),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(88,154,120,.18)}
+.field-glass input,.field-glass textarea{height:100%;min-height:0;border:0!important;border-radius:inherit!important;background:transparent!important;box-shadow:none!important;position:relative;z-index:4;padding:11px 14px}
+.field-glass input:focus,.field-glass textarea:focus{outline:none;border:0!important;background:transparent!important;box-shadow:inset 0 0 0 1px rgba(75,158,119,.45),inset 0 1px 0 rgba(255,255,255,.9)!important}
+.textarea-field .field-glass{margin-top:1px}
+.submit-button{transform:translateZ(16px);transition:transform .2s ease,box-shadow .2s ease}.submit-button:hover{transform:translateY(-2px) translateZ(22px)}
+.sources-section{transform:translateZ(8px);box-shadow:0 -12px 42px rgba(33,75,59,.09)}
+@media(max-width:720px){.liquid-glass-scene{perspective:1100px}.hero-copy,.input-column,.report-column,.topbar-frame,.sources-section{transform:none}.hero-orbit{transform:translateZ(18px) scale(.7)}.orbit-center{transform:translateZ(16px)}.field-glass:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.field-glass,.submit-button{transition:none!important}.field-glass:hover,.submit-button:hover{transform:none!important}}

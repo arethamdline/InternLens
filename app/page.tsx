@@ -1,13 +1,18 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { LiquidGlass } from 'simple-liquid-glass';
 import { LiquidGlassScene } from 'simple-liquid-glass/backdrop';
 import type { AnalysisResult, Locale, SourceRecord, StudentProfile } from '@/lib/types';
 
 const emptyProfile: StudentProfile = { degree: '', yearOfStudy: '', expectedGraduation: '', skills: '', workAuthorization: '' };
 const sampleDescription = `Summer Data Analyst Intern\n\nEligibility\n• Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.\n• Expected graduation between December 2026 and June 2028.\n• Available to work full-time for 10 weeks from June 2026.\n\nWhat you bring\n• Comfortable using Python and SQL for data analysis.\n• Strong written and spoken English.\n\nThis fictional sample is for product demonstration only.`;
-const lensOptions = { strength: 0.28, depth: 0.34, curvature: 0.72, bend: 0.82, bendWidth: 0.28, sheen: 1.8, sheenWidth: 14, specular: 2.2, glow: 0.16 } as const;
+const lensOptions = { strength: 0.075, depth: 0.3, curvature: 0.48, bend: 0.24, bendWidth: 0.12, sheen: 0.9, sheenWidth: 3, specular: 1.5, glow: 0.1 } as const;
+
+function GlassControl({ children, height = 44, radius = 14 }: { children: ReactNode; height?: number; radius?: number }) {
+  return <LiquidGlass className="field-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.035, bend: 0.12 }} quality="high" scale={24} radius={radius} blur={0.8} frost={0.025} saturation={112} dispersion={10} aberrationIntensity={0.06} glassColor="rgba(255,255,255,0.07)" borderColor="rgba(255,255,255,0.76)" style={{ width: '100%', height, borderRadius: radius }}>{children}</LiquidGlass>;
+}
 
 const copy = {
   en: {
@@ -76,7 +81,7 @@ export default function Home() {
   return <LiquidGlassScene className="liquid-glass-scene">
    <main>
     <nav className="topbar-frame" aria-label="Main navigation">
-      <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="loupe" lensOptions={lensOptions} quality="high" scale={280} radius={17} blur={0} frost={0} saturation={125} dispersion={50} aberrationIntensity={0.32} glassColor="rgba(255,255,255,0.035)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
+      <LiquidGlass className="topbar-glass" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={76} radius={17} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.055)" borderColor="rgba(255,255,255,0.78)" style={{ width: '100%', height: '100%', borderRadius: 17 }}>
         <div className="topbar-content"><a className="brand" href="#top"><Mark /><span>InternLens</span><b>HKU</b></a>
         <div className="nav-right"><span className="nav-note">{t.supported}</span><button className="language" onClick={() => setLocale(locale === 'en' ? 'zh-Hant' : 'en')}>{t.lang}</button></div></div>
       </LiquidGlass>
@@ -89,7 +94,7 @@ export default function Home() {
         <p className="intro">{t.intro}</p>
         <div className="hero-meta"><span>{locale === 'zh-Hant' ? '01 — 閱讀' : '01 — READ'}</span><span>{locale === 'zh-Hant' ? '02 — 對照' : '02 — COMPARE'}</span><span>{locale === 'zh-Hant' ? '03 — 核對' : '03 — REVIEW'}</span></div>
       </div>
-      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><LiquidGlass className="orbit-center liquid-lens" renderer="webgl" material="clear" refraction="lens" lensProfile="loupe" lensOptions={lensOptions} quality="high" scale={240} radius={68} blur={0} frost={0} saturation={125} dispersion={50} aberrationIntensity={0.32} glassColor="rgba(255,255,255,0.025)" borderColor="rgba(255,255,255,0.82)" style={{ width: 136, height: 136, borderRadius: 68 }}><Mark /></LiquidGlass><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
+      <div className="hero-orbit" aria-hidden="true"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><LiquidGlass className="orbit-center liquid-lens" renderer="webgl" material="clear" refraction="lens" lensProfile="material" lensOptions={lensOptions} quality="high" scale={68} radius={68} blur={0.8} frost={0.02} saturation={118} dispersion={12} aberrationIntensity={0.08} glassColor="rgba(255,255,255,0.045)" borderColor="rgba(255,255,255,0.82)" style={{ width: 136, height: 136, borderRadius: 68 }}><Mark /></LiquidGlass><span className="orbit-label label-a">EXPLICIT REQUIREMENTS</span><span className="orbit-label label-b">YOUR PROFILE</span></div>
     </section>
 
     <div className="workspace">
@@ -98,19 +103,19 @@ export default function Home() {
           <div className="section-heading"><div><p className="section-index">01 / {t.role}</p><h2>{t.profile}</h2></div><button type="button" className="text-button" onClick={() => { setProfile({ degree: 'BSc Computer Science', yearOfStudy: 'Year 3', expectedGraduation: 'June 2027', skills: 'Python, SQL, data analysis', workAuthorization: 'Non-local student; unsure whether this role qualifies under my current conditions.' }); setJobDescription(sampleDescription); }}>{t.example} <span>↗</span></button></div>
           <p className="section-note">{t.profileHint}</p>
           <div className="fields-grid">
-            <label className="field"><span>{t.degree}</span><input value={profile.degree} onChange={(e) => setField('degree', e.target.value)} placeholder={t.degreePlaceholder} autoComplete="off" /></label>
-            <label className="field"><span>{t.year}</span><input value={profile.yearOfStudy} onChange={(e) => setField('yearOfStudy', e.target.value)} placeholder={t.yearPlaceholder} autoComplete="off" /></label>
-            <label className="field"><span>{t.graduation}</span><input value={profile.expectedGraduation} onChange={(e) => setField('expectedGraduation', e.target.value)} placeholder={t.gradPlaceholder} autoComplete="off" /></label>
-            <label className="field"><span>{t.work} <a className="inline-source" href="https://www.immd.gov.hk/eng/services/visas/study.html" target="_blank" rel="noreferrer">{t.immigration}</a></span><input value={profile.workAuthorization} onChange={(e) => setField('workAuthorization', e.target.value)} placeholder={t.workPlaceholder} autoComplete="off" /></label>
-            <label className="field span-two"><span>{t.skills}</span><input value={profile.skills} onChange={(e) => setField('skills', e.target.value)} placeholder={t.skillsPlaceholder} autoComplete="off" /></label>
+            <label className="field"><span>{t.degree}</span><GlassControl><input value={profile.degree} onChange={(e) => setField('degree', e.target.value)} placeholder={t.degreePlaceholder} autoComplete="off" /></GlassControl></label>
+            <label className="field"><span>{t.year}</span><GlassControl><input value={profile.yearOfStudy} onChange={(e) => setField('yearOfStudy', e.target.value)} placeholder={t.yearPlaceholder} autoComplete="off" /></GlassControl></label>
+            <label className="field"><span>{t.graduation}</span><GlassControl><input value={profile.expectedGraduation} onChange={(e) => setField('expectedGraduation', e.target.value)} placeholder={t.gradPlaceholder} autoComplete="off" /></GlassControl></label>
+            <label className="field"><span>{t.work} <a className="inline-source" href="https://www.immd.gov.hk/eng/services/visas/study.html" target="_blank" rel="noreferrer">{t.immigration}</a></span><GlassControl><input value={profile.workAuthorization} onChange={(e) => setField('workAuthorization', e.target.value)} placeholder={t.workPlaceholder} autoComplete="off" /></GlassControl></label>
+            <label className="field span-two"><span>{t.skills}</span><GlassControl><input value={profile.skills} onChange={(e) => setField('skills', e.target.value)} placeholder={t.skillsPlaceholder} autoComplete="off" /></GlassControl></label>
           </div>
         </section>
 
         <section className="form-section job-section">
           <div className="section-heading"><div><p className="section-index">02 / {locale === 'zh-Hant' ? '職位資訊' : 'JOB POSTING'}</p><h2>{t.jd}</h2></div><button type="button" className="text-button" onClick={clearForm}>{t.clear} <span>×</span></button></div>
           <p className="section-note">{t.jdHint}</p>
-          <label className="field"><span>{t.url}</span><input type="url" value={jobUrl} onChange={(e) => setJobUrl(e.target.value)} placeholder="https://…" autoComplete="off" /></label>
-          <label className="field textarea-field"><textarea value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} placeholder={locale === 'zh-Hant' ? '在此貼上職位描述…' : 'Paste the job description here…'} rows={12} /></label>
+          <label className="field"><span>{t.url}</span><GlassControl><input type="url" value={jobUrl} onChange={(e) => setJobUrl(e.target.value)} placeholder="https://…" autoComplete="off" /></GlassControl></label>
+          <label className="field textarea-field"><GlassControl height={210} radius={18}><textarea value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} placeholder={locale === 'zh-Hant' ? '在此貼上職位描述…' : 'Paste the job description here…'} rows={12} /></GlassControl></label>
           {error && <p className="error-message" role="alert">{error}</p>}
           <div className="submit-row"><button type="submit" className="submit-button" disabled={loading}>{loading ? t.analyzing : t.analyze}<span aria-hidden="true">↗</span></button><span className="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2m-9 0h10v7H3V7Z"/></svg>{t.privacy}</span></div>
         </section>
