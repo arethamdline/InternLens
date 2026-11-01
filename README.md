@@ -7,15 +7,102 @@ InternLens helps HKU students compare their profile with explicit internship req
 Requirements: Node.js 22+ (22.22 recommended).
 
 ```sh
-cp .env.example .env.local
-# Edit .env.local and set AI_API_KEY and AI_MODEL.
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The UI supports English and Traditional Chinese. The sample job description is fictional.
+Open [http://localhost:3000](http://localhost:3000) and select **Try an example** to see a fixed sample report without an API key. To run live AI analysis, configure the model gateway below. The UI supports English and Traditional Chinese.
+
+## Try an example without an API key
+
+The **Try an example** button fills in the fictional profile and internship description below, then shows a fixed demonstration report locally. It does not call an AI provider. This lets a fresh clone demonstrate the report format without credentials. Select **Check eligibility** to request a live analysis; that requires a configured AI provider and may take longer.
+
+### Sample input
+
+```json
+{
+  "profile": {
+    "degree": "BSc Computer Science",
+    "yearOfStudy": "Year 3",
+    "expectedGraduation": "June 2027",
+    "skills": "Python, SQL, data analysis",
+    "workAuthorization": "Non-local student; unsure whether this role qualifies under my current conditions."
+  },
+  "jobDescription": "Summer Data Analyst Intern\n\nEligibility\n• Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.\n• Expected graduation between December 2026 and June 2028.\n• Available to work full-time for 10 weeks from June 2026.\n\nWhat you bring\n• Comfortable using Python and SQL for data analysis.\n• Strong written and spoken English.\n\nThis fictional sample is for product demonstration only."
+}
+```
+
+### Expected output
+
+The fixed demo report shown by **Try an example**:
+
+```json
+{
+  "eligibility": {
+    "summary": "The profile matches the degree, expected graduation, and Python/SQL requirements. Availability and English proficiency are unclear based on the provided profile.",
+    "requirements": [
+      {
+        "requirement": "Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.",
+        "status": "Met",
+        "explanation": "The profile states BSc Computer Science and Year 3, which matches the undergraduate degree requirement.",
+        "evidence": "Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline."
+      },
+      {
+        "requirement": "Expected graduation between December 2026 and June 2028.",
+        "status": "Met",
+        "explanation": "The profile states June 2027, which falls within the stated graduation window.",
+        "evidence": "Expected graduation between December 2026 and June 2028."
+      },
+      {
+        "requirement": "Available to work full-time for 10 weeks from June 2026.",
+        "status": "Unclear",
+        "explanation": "The profile does not state whether the student is available for this period.",
+        "evidence": "Available to work full-time for 10 weeks from June 2026."
+      },
+      {
+        "requirement": "Comfortable using Python and SQL for data analysis.",
+        "status": "Met",
+        "explanation": "The profile lists Python, SQL, and data analysis.",
+        "evidence": "Comfortable using Python and SQL for data analysis."
+      },
+      {
+        "requirement": "Strong written and spoken English.",
+        "status": "Unclear",
+        "explanation": "The profile does not include information about English proficiency.",
+        "evidence": "Strong written and spoken English."
+      }
+    ]
+  },
+  "credibility": {
+    "summary": "This is a fictional example. No posting URL was supplied, so the source cannot be checked.",
+    "signals": [
+      {
+        "signal": "No posting source link provided",
+        "status": "Unclear",
+        "explanation": "Only the pasted text can be reviewed; the platform and employer website cannot be checked without a link.",
+        "evidence": null,
+        "sourceUrl": null
+      },
+      {
+        "signal": "Fictional demonstration posting",
+        "status": "Warning",
+        "explanation": "The description identifies itself as fictional and for product demonstration only.",
+        "evidence": "This fictional sample is for product demonstration only.",
+        "sourceUrl": null
+      }
+    ],
+    "disclaimer": "This is a fixed demonstration report, not a live AI analysis or verification of a real vacancy."
+  }
+}
+```
 
 ## Configure the model gateway
+
+Live AI analysis uses server-side environment variables. Copy the example file and add the model and key provided to your group:
+
+```sh
+cp .env.example .env.local
+```
 
 Set these server-side environment variables:
 

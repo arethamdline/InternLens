@@ -5,9 +5,9 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { LiquidGlass } from 'simple-liquid-glass';
 import { LiquidGlassScene } from 'simple-liquid-glass/backdrop';
 import type { AnalysisResult, Locale, SourceRecord, StudentProfile } from '@/lib/types';
+import { demoJobDescription, demoProfile, demoReport } from '@/lib/demo';
 
 const emptyProfile: StudentProfile = { degree: '', yearOfStudy: '', expectedGraduation: '', skills: '', workAuthorization: '' };
-const sampleDescription = `Summer Data Analyst Intern\n\nEligibility\n• Currently pursuing an undergraduate degree in Data Science, Statistics, Computer Science or a related discipline.\n• Expected graduation between December 2026 and June 2028.\n• Available to work full-time for 10 weeks from June 2026.\n\nWhat you bring\n• Comfortable using Python and SQL for data analysis.\n• Strong written and spoken English.\n\nThis fictional sample is for product demonstration only.`;
 const lensOptions = { strength: 0.09, depth: 0.3, curvature: 0.48, bend: 0.24, bendWidth: 0.12, sheen: 0.9, sheenWidth: 3, specular: 1.5, glow: 0.1 } as const;
 
 function GlassControl({ children, height = 44, radius = 14 }: { children: ReactNode; height?: number; radius?: number }) {
@@ -78,6 +78,15 @@ export default function Home() {
     } finally { setLoading(false); }
   }
 
+  function tryExample() {
+    setProfile(demoProfile);
+    setJobDescription(demoJobDescription);
+    setJobUrl('');
+    setReport(demoReport);
+    setError('');
+    window.setTimeout(() => document.getElementById('report')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+  }
+
   function clearForm() {
     setProfile(emptyProfile); setJobDescription(''); setJobUrl(''); setReport(null); setError('');
   }
@@ -104,7 +113,7 @@ export default function Home() {
     <div className="workspace">
       <form onSubmit={submit} className="input-column">
         <section className="form-section">
-          <div className="section-heading"><div><p className="section-index">01 / {t.role}</p><h2>{t.profile}</h2></div><GlassButton type="button" className="text-button" height={38} onClick={() => { setProfile({ degree: 'BSc Computer Science', yearOfStudy: 'Year 3', expectedGraduation: 'June 2027', skills: 'Python, SQL, data analysis', workAuthorization: 'Non-local student; unsure whether this role qualifies under my current conditions.' }); setJobDescription(sampleDescription); }}>{t.example} <span>↗</span></GlassButton></div>
+          <div className="section-heading"><div><p className="section-index">01 / {t.role}</p><h2>{t.profile}</h2></div><GlassButton type="button" className="text-button" height={38} onClick={tryExample}>{locale === 'zh-Hant' ? '試用範例' : 'Try an example'} <span>↗</span></GlassButton></div>
           <p className="section-note">{t.profileHint}</p>
           <div className="fields-grid">
             <label className="field"><span>{t.degree}</span><GlassControl><input value={profile.degree} onChange={(e) => setField('degree', e.target.value)} placeholder={t.degreePlaceholder} autoComplete="off" /></GlassControl></label>
