@@ -121,17 +121,17 @@ cp .env.example .env.local
 docker compose up --build
 ```
 
-The `data/` directory is mounted for SQLite. The database contains only the source directory and a table reserved for postings whose reuse license has been confirmed. Student profiles, pasted job descriptions, and generated reports are not persisted.
+The source directory is bundled from `data/sources.json`; no database or persistent filesystem is required. Student profiles, pasted job descriptions, and generated reports are not persisted.
 
 ## Source handling
 
-`data/sources.json` is a source directory, not a job-posting dataset. Its `storagePolicy` field documents the current boundary:
+`data/sources.json` is a source directory, not a job-posting dataset. The app reads it directly at build/runtime and does not need a writable filesystem or database. Its `storagePolicy` field documents the current boundary:
 
 - `link-only`: show the source link; do not crawl or store its listing text.
-- `page-review-required`: check the specific page's terms and attribution requirements before importing a record. This status still blocks persistence until it is changed to `licensed`.
-- `licensed`: permitted records may be stored with source and license evidence.
+- `page-review-required`: check the specific page's terms and attribution requirements before considering any reuse.
+- `licensed`: reuse may be considered only when the required source and license evidence has been recorded.
 
-No automated importer is enabled until page-specific reuse permission is documented. LinkedIn and JobsDB are not integrated. Directory membership is a provenance signal only; it does not guarantee a particular employer or posting.
+No automated importer or job-posting storage is currently enabled. LinkedIn and JobsDB are not integrated. Directory membership is a provenance signal only; it does not guarantee a particular employer or posting.
 
 ## API
 

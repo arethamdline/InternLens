@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { analyzeWithAI } from '@/lib/ai';
+import { AIProviderError, analyzeWithAI } from '@/lib/ai';
 import type { StudentProfile } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -50,9 +50,18 @@ export async function POST(request: Request) {
     // Never log request bodies or provider error payloads: they can contain profile details or secrets.
     const message = error instanceof Error ? error.message : '';
     const status = message === 'AI configuration is incomplete. Set AI_BASE_URL, AI_API_KEY, and AI_MODEL.' ? 503 : 502;
+    const diagnostic = error instanceof AIProviderError
+      ? error.diagnostic
+      : { category: error instanceof SyntaxError ? 'invalid-provider-response' : 'analysis-failed' };
+    if (status !== 503) {
+      console.error('[InternLens] AI analysis failed', diagnostic);
+    }
     const clientMessage = status === 503
       ? (locale === 'zh-Hant' ? 'AI 服務尚未設定，請先配置伺服器環境變數。' : 'AI service is not configured. Set the server environment variables first.')
       : (locale === 'zh-Hant' ? '暫時無法完成分析，請稍後再試。你的資料沒有被保存。' : 'Analysis failed temporarily. Please try again. Your input was not saved.');
-    return NextResponse.json({ error: clientMessage }, { status, headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({
+      error: clientMessage,
+      ...(process.env.NODE_ENV === 'development' && status !== 503 ? { diagnostic } : {}),
+    }, { status, headers: { 'Cache-Control': 'no-store' } });
   }
 }
