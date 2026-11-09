@@ -69,8 +69,26 @@ export default function Home() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile, jobDescription, jobUrl, locale }),
       });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || t.error);
+      let payload: unknown;
+      try {
+        payload = await response.json();
+      } catch {
+        const message = locale === 'zh-Hant'
+          ? `分析服務回應異常（HTTP ${response.status}），請稍後再試。`
+          : `The analysis service returned an unexpected response (HTTP ${response.status}). Please try again.`;
+        throw new Error(message);
+      }
+      if (!response.ok) {
+        const apiError = payload && typeof payload === 'object' && 'error' in payload
+          ? payload.error
+          : undefined;
+        const message = typeof apiError === 'string' && apiError
+          ? apiError
+          : locale === 'zh-Hant'
+            ? `分析服務回應異常（HTTP ${response.status}），請稍後再試。`
+            : `The analysis service returned an unexpected response (HTTP ${response.status}). Please try again.`;
+        throw new Error(message);
+      }
       setReport(payload as AnalysisResult);
       window.setTimeout(() => document.getElementById('report')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     } catch (caught) {
