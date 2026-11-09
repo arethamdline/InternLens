@@ -5,7 +5,6 @@ import { detectRedFlags } from './redflags';
 import { sourceForUrl } from './sources';
 
 type Provider = 'openai-compatible' | 'anthropic-compatible';
-const providerTimeoutMs = 45_000;
 
 export class AIProviderError extends Error {
   constructor(
@@ -138,7 +137,6 @@ async function invokeOpenAI(baseUrl: string, apiKey: string, model: string, syst
     body: JSON.stringify({ model, temperature: 0.1, response_format: { type: 'json_object' }, messages: [
       { role: 'system', content: system }, { role: 'user', content: user },
     ] }),
-    signal: AbortSignal.timeout(providerTimeoutMs),
   });
   if (!response.ok) {
     const payload: unknown = await response.json().catch(() => undefined);
@@ -162,7 +160,6 @@ async function invokeAnthropic(baseUrl: string, apiKey: string, model: string, s
     method: 'POST',
     headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
     body: JSON.stringify({ model, max_tokens: 3500, temperature: 0.1, system, messages: [{ role: 'user', content: user }] }),
-    signal: AbortSignal.timeout(providerTimeoutMs),
   });
   if (!response.ok) {
     const payload: unknown = await response.json().catch(() => undefined);
