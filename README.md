@@ -106,10 +106,11 @@ cp .env.example .env.local
 
 Set these server-side environment variables:
 
-- `AI_PROVIDER`: `openai-compatible` (default) or `anthropic-compatible`
 - `AI_BASE_URL`: provider-compatible API base URL
 - `AI_MODEL`: model ID enabled for your account
 - `AI_API_KEY`: API key; keep it in `.env.local` or a secret manager
+
+The default provider is OpenAI-compatible, so `AI_PROVIDER` can be omitted. Set `AI_PROVIDER=anthropic-compatible` only when using an Anthropic-compatible endpoint.
 
 The browser never receives the key. Do not paste real credentials into source files, issues, logs, or PRs.
 
