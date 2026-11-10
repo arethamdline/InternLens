@@ -122,7 +122,7 @@ cp .env.example .env.local
 docker compose up --build
 ```
 
-The source directory is bundled from `data/sources.json`; no database or persistent filesystem is required. Student profiles, pasted job descriptions, and generated reports are not persisted.
+The source directory is bundled from `data/sources.json`; no database or persistent filesystem is required. Student profiles and pasted job descriptions are not stored by InternLens. On Netlify, completed reports are temporarily stored in Netlify Blobs for up to one hour so the background analysis can return its result; expired reports are cleaned up periodically.
 
 ## Source handling
 
@@ -140,7 +140,10 @@ No automated importer or job-posting storage is currently enabled. LinkedIn and 
 Returns the curated source directory and its storage policy metadata.
 
 ### `POST /api/analyze`
-Accepts `{ profile, jobDescription, jobUrl?, locale? }`. `locale` is `en` or `zh-Hant`. Returns `eligibility.requirements[]` with `Met`, `Not Met`, or `Unclear`, exact job-description evidence, and a `credibility.signals[]` list. Invalid model quotes are discarded and the affected requirement is downgraded to `Unclear`. Requests are not cached or stored.
+Accepts `{ profile, jobDescription, jobUrl?, locale? }`. `locale` is `en` or `zh-Hant`. On Netlify, returns `202` with a `requestId` and continues analysis in a background function. Locally, returns the completed result synchronously.
+
+### `GET /api/analyze/status?id=<requestId>`
+On Netlify, returns `pending`, `completed` with the report, or `failed`. Completed reports are temporarily stored in Netlify Blobs for up to one hour and removed by a scheduled cleanup function. Profiles and pasted descriptions are not stored by InternLens.
 
 The analysis model is instructed to treat job text as untrusted input and ignore embedded instructions. Employment authorization rules can depend on individual circumstances; an unclear result should be checked with official guidance.
 

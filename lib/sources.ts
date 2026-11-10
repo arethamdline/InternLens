@@ -1,4 +1,3 @@
-import 'server-only';
 import sourceData from '../data/sources.json';
 import type { SourceRecord } from './types';
 

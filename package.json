@@ -10,6 +10,8 @@
     "test": "node --test"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.1.9",
+    "@netlify/functions": "^6.1.1",
     "next": "15.5.28",
     "react": "19.2.3",
     "react-dom": "19.2.3",

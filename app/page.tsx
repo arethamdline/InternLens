@@ -9,6 +9,7 @@ import { demoJobDescription, demoProfile, demoReport } from '@/lib/demo';
 
 const emptyProfile: StudentProfile = { degree: '', yearOfStudy: '', expectedGraduation: '', skills: '', workAuthorization: '' };
 const lensOptions = { strength: 0.09, depth: 0.3, curvature: 0.48, bend: 0.24, bendWidth: 0.12, sheen: 0.9, sheenWidth: 3, specular: 1.5, glow: 0.1 } as const;
+const analysisPollIntervalMs = 2000;
 
 function GlassControl({ children, height = 44, radius = 14 }: { children: ReactNode; height?: number; radius?: number }) {
   return <LiquidGlass className="field-glass" renderer="svg" material="clear" refraction="lens" lensProfile="material" lensOptions={{ ...lensOptions, strength: 0.045, bend: 0.12 }} quality="high" scale={28} radius={radius} blur={0.8} frost={0.025} saturation={112} dispersion={10} aberrationIntensity={0.06} glassColor="rgba(255,255,255,0.07)" borderColor="rgba(255,255,255,0.76)" style={{ width: '100%', height, borderRadius: radius }}>{children}</LiquidGlass>;
@@ -20,12 +21,63 @@ function GlassButton({ children, className = '', height = 42, ...props }: Button
 
 const copy = {
   en: {
-    eyebrow: 'HKU STUDENT TOOL · EARLY ACCESS', title: 'Read the requirements.\nKnow where you stand.', intro: 'A clear comparison between your profile and the words in an internship posting. No offer predictions.', profile: 'Your profile', degree: 'Degree / discipline', year: 'Year of study', graduation: 'Expected graduation', skills: 'Skills', work: 'Work authorization', immigration: 'Check HK Immigration guidance ↗', profileHint: 'Only share details you are comfortable entering for this check.', jd: 'Internship description', jdHint: 'Paste the full job description. It is analyzed for this request and not saved.', url: 'Posting link (optional)', urlHint: 'Used to check whether the domain is in the source directory.', analyze: 'Check eligibility', analyzing: 'Reading requirements…', example: 'Fill example', clear: 'Clear', results: 'Your report', eligibility: 'Eligibility', credibility: 'Source signals', sources: 'HKU & public internship sources', sourcesHint: 'A source listing confirms a channel, not that every employer or posting is genuine.', privacy: 'Sent to your configured AI provider; not stored by InternLens.', disclaimer: 'This tool explains explicit posting requirements. It does not predict hiring decisions or provide legal advice.', empty: 'Add your profile and a job description to get a requirement-by-requirement review.', requirement: 'Requirement', status: 'Status', evidence: 'Evidence from the posting', explanation: 'Why', warning: 'Review this signal', unknown: 'Unclear', verified: 'Verified signal', storage: 'Listing policy', reviewed: 'Reviewed', linkOnly: 'Link only', pageReview: 'Page review required', licensed: 'Licensed records', emptySignals: 'No additional signals returned.', lang: '繁體中文', role: 'Student details', directory: 'SOURCE DIRECTORY', error: 'Something went wrong.', validation: 'Please add the internship description.', noSaving: 'No account. No saved profile. No stored reports.', supported: 'Eligibility guidance for HKU students', selectYear: 'Select year', selectDegree: 'Select discipline', workPlaceholder: 'e.g. HKU local student / non-local student with NOL / unsure', skillsPlaceholder: 'Python, SQL, research, communication…', degreePlaceholder: 'e.g. BSc in Computer Science', yearPlaceholder: 'e.g. Year 3', gradPlaceholder: 'e.g. June 2027', reportSummary: 'The report separates explicit requirements from profile facts, and flags anything that needs checking.', startAgain: 'Check another role',
+    eyebrow: 'HKU STUDENT TOOL · EARLY ACCESS', title: 'Read the requirements.\nKnow where you stand.', intro: 'A clear comparison between your profile and the words in an internship posting. No offer predictions.', profile: 'Your profile', degree: 'Degree / discipline', year: 'Year of study', graduation: 'Expected graduation', skills: 'Skills', work: 'Work authorization', immigration: 'Check HK Immigration guidance ↗', profileHint: 'Only share details you are comfortable entering for this check.', jd: 'Internship description', jdHint: 'Paste the full job description. It is analyzed for this request and not saved.', url: 'Posting link (optional)', urlHint: 'Used to check whether the domain is in the source directory.', analyze: 'Check eligibility', analyzing: 'Analyzing…', queued: 'Analysis is running in the background. Keep this page open.', example: 'Fill example', clear: 'Clear', results: 'Your report', eligibility: 'Eligibility', credibility: 'Source signals', sources: 'HKU & public internship sources', sourcesHint: 'A source listing confirms a channel, not that every employer or posting is genuine.', privacy: 'Sent to your configured AI provider. The report is temporarily stored for up to 1 hour to deliver your result.', disclaimer: 'This tool explains explicit posting requirements. It does not predict hiring decisions or provide legal advice.', empty: 'Add your profile and a job description to get a requirement-by-requirement review.', requirement: 'Requirement', status: 'Status', evidence: 'Evidence from the posting', explanation: 'Why', warning: 'Review this signal', unknown: 'Unclear', verified: 'Verified signal', storage: 'Listing policy', reviewed: 'Reviewed', linkOnly: 'Link only', pageReview: 'Page review required', licensed: 'Licensed records', emptySignals: 'No additional signals returned.', lang: '繁體中文', role: 'Student details', directory: 'SOURCE DIRECTORY', error: 'Something went wrong.', validation: 'Please add the internship description.', noSaving: 'No account or saved profile. Reports expire after 1 hour.', supported: 'Eligibility guidance for HKU students', selectYear: 'Select year', selectDegree: 'Select discipline', workPlaceholder: 'e.g. HKU local student / non-local student with NOL / unsure', skillsPlaceholder: 'Python, SQL, research, communication…', degreePlaceholder: 'e.g. BSc in Computer Science', yearPlaceholder: 'e.g. Year 3', gradPlaceholder: 'e.g. June 2027', reportSummary: 'The report separates explicit requirements from profile facts, and flags anything that needs checking.', startAgain: 'Check another role',
   },
   'zh-Hant': {
-    eyebrow: '港大學生工具 · 早期版本', title: '看清職位要求，\n了解自己符合哪些條件。', intro: '逐項對照個人資料與實習招聘文字，不預測錄取結果。', profile: '你的資料', degree: '學位／主修', year: '就讀年級', graduation: '預計畢業日期', skills: '技能', work: '工作許可', immigration: '查看香港入境處指引 ↗', profileHint: '只需提供本次檢查所需、且你願意輸入的資料。', jd: '實習職位描述', jdHint: '貼上完整招聘內容。文字只用於本次分析，不會保存。', url: '職位連結（選填）', urlHint: '用於檢查網域是否列於來源目錄。', analyze: '檢查資格', analyzing: '正在整理要求…', example: '填入範例', clear: '清除', results: '分析報告', eligibility: '資格要求', credibility: '來源訊號', sourcesHint: '來源列入目錄只代表發布渠道可辨識，不代表每個僱主或職位都真實。', privacy: '資料會傳送至已設定的 AI 服務，但 InternLens 不會保存。', disclaimer: '本工具只解釋職位明確列出的要求，不預測錄取結果，也不提供法律意見。', empty: '填寫資料並貼上職位描述，即可逐項檢視要求。', requirement: '要求', status: '狀態', evidence: '招聘文字原文', explanation: '判斷依據', warning: '請留意此訊號', unknown: '不確定', verified: '已核實訊號', sources: '港大與公共實習來源', storage: '刊登內容政策', reviewed: '最近核查', linkOnly: '只列連結', pageReview: '需逐頁核實', licensed: '已獲授權', emptySignals: '沒有其他訊號。', lang: 'English', role: '學生資料', directory: '來源目錄', error: '暫時無法完成。', validation: '請先貼上實習職位描述。', noSaving: '無需帳戶，不保存個人資料或報告。', supported: '為港大學生提供資格要求解讀', selectYear: '選擇年級', selectDegree: '選擇學科', workPlaceholder: '例如：本地生／持有 NOL 的非本地生／不確定', skillsPlaceholder: 'Python、SQL、研究、溝通…', degreePlaceholder: '例如：計算機科學理學士', yearPlaceholder: '例如：三年級', gradPlaceholder: '例如：2027 年 6 月', reportSummary: '報告將職位明確要求與你的資料逐項對照，並標示需要確認的內容。', startAgain: '檢查另一個職位',
+    eyebrow: '港大學生工具 · 早期版本', title: '看清職位要求，\n了解自己符合哪些條件。', intro: '逐項對照個人資料與實習招聘文字，不預測錄取結果。', profile: '你的資料', degree: '學位／主修', year: '就讀年級', graduation: '預計畢業日期', skills: '技能', work: '工作許可', immigration: '查看香港入境處指引 ↗', profileHint: '只需提供本次檢查所需、且你願意輸入的資料。', jd: '實習職位描述', jdHint: '貼上完整招聘內容。文字只用於本次分析，不會保存；分析報告會暫存一小時以便傳回。', url: '職位連結（選填）', urlHint: '用於檢查網域是否列於來源目錄。', analyze: '檢查資格', analyzing: '正在分析…', queued: '分析正在背景執行，請保持此頁開啟。', example: '填入範例', clear: '清除', results: '分析報告', eligibility: '資格要求', credibility: '來源訊號', sourcesHint: '來源列入目錄只代表發布渠道可辨識，不代表每個僱主或職位都真實。', privacy: '資料會傳送至已設定的 AI 服務；分析報告會暫存最多一小時以傳回結果。', disclaimer: '本工具只解釋職位明確列出的要求，不預測錄取結果，也不提供法律意見。', empty: '填寫資料並貼上職位描述，即可逐項檢視要求。', requirement: '要求', status: '狀態', evidence: '招聘文字原文', explanation: '判斷依據', warning: '請留意此訊號', unknown: '不確定', verified: '已核實訊號', sources: '港大與公共實習來源', storage: '刊登內容政策', reviewed: '最近核查', linkOnly: '只列連結', pageReview: '需逐頁核實', licensed: '已獲授權', emptySignals: '沒有其他訊號。', lang: 'English', role: '學生資料', directory: '來源目錄', error: '暫時無法完成。', validation: '請先貼上實習職位描述。', noSaving: '無需帳戶或保存個人資料；分析報告一小時後到期。', supported: '為港大學生提供資格要求解讀', selectYear: '選擇年級', selectDegree: '選擇學科', workPlaceholder: '例如：本地生／持有 NOL 的非本地生／不確定', skillsPlaceholder: 'Python、SQL、研究、溝通…', degreePlaceholder: '例如：計算機科學理學士', yearPlaceholder: '例如：三年級', gradPlaceholder: '例如：2027 年 6 月', reportSummary: '報告將職位明確要求與你的資料逐項對照，並標示需要確認的內容。', startAgain: '檢查另一個職位',
   },
 } as const;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isAnalysisResult(value: unknown): value is AnalysisResult {
+  return isRecord(value)
+    && isRecord(value.eligibility)
+    && typeof value.eligibility.summary === 'string'
+    && Array.isArray(value.eligibility.requirements)
+    && isRecord(value.credibility)
+    && typeof value.credibility.summary === 'string'
+    && Array.isArray(value.credibility.signals)
+    && typeof value.credibility.disclaimer === 'string';
+}
+
+async function waitForAnalysis(requestId: string, locale: Locale): Promise<AnalysisResult> {
+  let temporaryFailures = 0;
+  while (true) {
+    const response = await fetch(`/api/analyze/status?id=${encodeURIComponent(requestId)}`, { cache: 'no-store' });
+    const payload: unknown = await response.json().catch(() => undefined);
+    if (response.status >= 500) {
+      temporaryFailures += 1;
+      if (temporaryFailures >= 5) {
+        const message = locale === 'zh-Hant'
+          ? `分析狀態查詢持續失敗（HTTP ${response.status}）。`
+          : `Analysis status checks keep failing (HTTP ${response.status}).`;
+        throw new Error(message);
+      }
+      await new Promise((resolve) => window.setTimeout(resolve, analysisPollIntervalMs));
+      continue;
+    }
+    temporaryFailures = 0;
+    if (!response.ok) {
+      const error = isRecord(payload) && typeof payload.error === 'string'
+        ? payload.error
+        : locale === 'zh-Hant'
+          ? `分析狀態查詢失敗（HTTP ${response.status}）。`
+          : `Could not check analysis status (HTTP ${response.status}).`;
+      throw new Error(error);
+    }
+    if (!isRecord(payload)) throw new Error(copy[locale].error);
+
+    if (payload.status === 'completed' && isAnalysisResult(payload.result)) return payload.result;
+    if (payload.status === 'failed') {
+      throw new Error(typeof payload.error === 'string' ? payload.error : copy[locale].error);
+    }
+    if (payload.status !== 'pending') throw new Error(copy[locale].error);
+    await new Promise((resolve) => window.setTimeout(resolve, analysisPollIntervalMs));
+  }
+}
 
 function Mark() {
   return <span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M20 4 35 12.5v15L20 36 5 27.5v-15L20 4Z" stroke="currentColor" strokeWidth="1.2"/><path d="m20 10 9.5 16H10.5L20 10Z" stroke="currentColor" strokeWidth="1.2"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg></span>;
@@ -45,6 +97,7 @@ export default function Home() {
   const [report, setReport] = useState<AnalysisResult | null>(null);
   const [sources, setSources] = useState<SourceRecord[]>([]);
   const [loading, setLoading] = useState(false);
+  const [backgroundQueued, setBackgroundQueued] = useState(false);
   const [error, setError] = useState('');
   const t = copy[locale];
 
@@ -69,6 +122,16 @@ export default function Home() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile, jobDescription, jobUrl, locale }),
       });
+      if (response.status === 202) {
+        const accepted: unknown = await response.json().catch(() => undefined);
+        const requestId = isRecord(accepted) && typeof accepted.requestId === 'string' ? accepted.requestId : '';
+        if (!requestId) throw new Error(t.error);
+        setBackgroundQueued(true);
+        const result = await waitForAnalysis(requestId, locale);
+        setReport(result);
+        window.setTimeout(() => document.getElementById('report')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+        return;
+      }
       let payload: unknown;
       try {
         payload = await response.json();
@@ -93,7 +156,7 @@ export default function Home() {
       window.setTimeout(() => document.getElementById('report')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : t.error);
-    } finally { setLoading(false); }
+    } finally { setLoading(false); setBackgroundQueued(false); }
   }
 
   function tryExample() {
@@ -149,6 +212,7 @@ export default function Home() {
           <label className="field textarea-field"><GlassControl height={210} radius={18}><textarea value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} placeholder={locale === 'zh-Hant' ? '在此貼上職位描述…' : 'Paste the job description here…'} rows={12} /></GlassControl></label>
           {error && <p className="error-message" role="alert">{error}</p>}
           <div className="submit-row"><GlassButton type="submit" className="submit-button" height={50} disabled={loading}>{loading ? t.analyzing : t.analyze}<span aria-hidden="true">↗</span></GlassButton><span className="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2m-9 0h10v7H3V7Z"/></svg>{t.privacy}</span></div>
+          {backgroundQueued && <p className="section-note" role="status">{t.queued}</p>}
         </section>
       </form>
 
