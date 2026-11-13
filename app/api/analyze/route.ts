@@ -1,7 +1,6 @@
-import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { AIProviderError, analyzeWithAI } from '@/lib/ai';
-import { createPendingAnalysisJob, saveFailedAnalysisJob } from '@/lib/analysis-job-store';
+import { createPendingAnalysisJob, isValidAnalysisJobId, saveFailedAnalysisJob } from '@/lib/analysis-job-store';
 import { parseAnalyzeInput } from '@/lib/analyze-request';
 
 export const runtime = 'nodejs';
@@ -25,23 +24,18 @@ export async function POST(request: Request) {
 
   try {
     if (process.env.SITE_ID) {
-      const requestId = randomUUID();
+      const requestId = body && typeof body === 'object' && 'requestId' in body && typeof body.requestId === 'string'
+        ? body.requestId
+        : null;
+      if (!isValidAnalysisJobId(requestId)) {
+        return NextResponse.json({ error: 'Invalid analysis request.' }, { status: 400 });
+      }
       backgroundRequestId = requestId;
       await createPendingAnalysisJob(requestId);
-      const functionUrl = new URL('/.netlify/functions/analyze-background', process.env.URL || request.url);
-      const response = await fetch(functionUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...input, requestId }),
-        cache: 'no-store',
+      return NextResponse.redirect(new URL('/.netlify/functions/analyze-background', request.url), {
+        status: 307,
+        headers: { 'Cache-Control': 'no-store' },
       });
-      if (response.status !== 202) {
-        await saveFailedAnalysisJob(requestId, input.locale === 'zh-Hant'
-          ? '無法啟動背景分析，請稍後再試。'
-          : 'Could not start background analysis. Please try again.');
-        return NextResponse.json({ error: input.locale === 'zh-Hant' ? '無法啟動分析，請稍後再試。' : 'Could not start analysis. Please try again.' }, { status: 502 });
-      }
-      return NextResponse.json({ requestId }, { status: 202, headers: { 'Cache-Control': 'no-store' } });
     }
 
     const result = await analyzeWithAI(input);

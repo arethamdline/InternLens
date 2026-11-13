@@ -140,7 +140,7 @@ No automated importer or job-posting storage is currently enabled. LinkedIn and 
 Returns the curated source directory and its storage policy metadata.
 
 ### `POST /api/analyze`
-Accepts `{ profile, jobDescription, jobUrl?, locale? }`. `locale` is `en` or `zh-Hant`. On Netlify, returns `202` with a `requestId` and continues analysis in a background function. Locally, returns the completed result synchronously.
+Accepts `{ profile, jobDescription, jobUrl?, locale?, requestId? }`. `locale` is `en` or `zh-Hant`. On Netlify, provide a version-4 UUID as `requestId`; the browser follows a same-origin redirect to the background function, which returns `202`. Locally, returns the completed result synchronously.
 
 ### `GET /api/analyze/status?id=<requestId>`
 On Netlify, returns `pending`, `completed` with the report, or `failed`. Completed reports are temporarily stored in Netlify Blobs for up to one hour and removed by a scheduled cleanup function. Profiles and pasted descriptions are not stored by InternLens.

@@ -118,14 +118,12 @@ export default function Home() {
     if (!jobDescription.trim()) { setError(t.validation); return; }
     setLoading(true);
     try {
+      const requestId = crypto.randomUUID();
       const response = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile, jobDescription, jobUrl, locale }),
+        body: JSON.stringify({ profile, jobDescription, jobUrl, locale, requestId }),
       });
       if (response.status === 202) {
-        const accepted: unknown = await response.json().catch(() => undefined);
-        const requestId = isRecord(accepted) && typeof accepted.requestId === 'string' ? accepted.requestId : '';
-        if (!requestId) throw new Error(t.error);
         setBackgroundQueued(true);
         const result = await waitForAnalysis(requestId, locale);
         setReport(result);
