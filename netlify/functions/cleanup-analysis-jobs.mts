@@ -8,5 +8,4 @@ export default async function cleanupAnalysisJobs(): Promise<void> {
 
 export const config: Config = {
   schedule: '*/5 * * * *',
-  region: 'sin',
 };

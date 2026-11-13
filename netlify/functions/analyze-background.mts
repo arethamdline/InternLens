@@ -54,5 +54,4 @@ export default async function analyzeBackground(request: Request): Promise<void>
 export const config: Config = {
   background: true,
   method: 'POST',
-  region: 'sin',
 };
