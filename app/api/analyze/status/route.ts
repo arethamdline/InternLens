@@ -10,6 +10,17 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const readTimeoutMs = 8000;
+
+// A stuck storage read otherwise holds the request until the platform's 30s limit and returns an opaque 502.
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error('Analysis status read timed out.')), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export async function GET(request: Request) {
   const requestId = new URL(request.url).searchParams.get('id');
   if (!isValidAnalysisJobId(requestId)) {
@@ -17,7 +28,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const job = await readAnalysisJob(requestId);
+    const job = await withTimeout(readAnalysisJob(requestId), readTimeoutMs);
     if (!job) return NextResponse.json({ status: 'pending' }, { headers: { 'Cache-Control': 'no-store' } });
 
     if (job.expiresAt <= Date.now()) {

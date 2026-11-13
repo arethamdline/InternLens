@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { AIProviderError, analyzeWithAI } from '@/lib/ai';
 import { createPendingAnalysisJob, isValidAnalysisJobId, saveFailedAnalysisJob } from '@/lib/analysis-job-store';
@@ -24,18 +25,16 @@ export async function POST(request: Request) {
 
   try {
     if (process.env.SITE_ID) {
-      const requestId = body && typeof body === 'object' && 'requestId' in body && typeof body.requestId === 'string'
+      // Reuse the client-supplied id when valid; otherwise generate one so older cached pages still work.
+      const clientRequestId = body && typeof body === 'object' && 'requestId' in body && typeof body.requestId === 'string'
         ? body.requestId
         : null;
-      if (!isValidAnalysisJobId(requestId)) {
-        return NextResponse.json({ error: 'Invalid analysis request.' }, { status: 400 });
-      }
+      const requestId = isValidAnalysisJobId(clientRequestId) ? clientRequestId : randomUUID();
       backgroundRequestId = requestId;
       await createPendingAnalysisJob(requestId);
-      return NextResponse.redirect(new URL('/.netlify/functions/analyze-background', request.url), {
-        status: 307,
-        headers: { 'Cache-Control': 'no-store' },
-      });
+      // The browser starts the background function itself with a same-origin request.
+      // A server redirect here pointed at the deploy permalink domain, which browsers block as cross-origin.
+      return NextResponse.json({ requestId }, { status: 202, headers: { 'Cache-Control': 'no-store' } });
     }
 
     const result = await analyzeWithAI(input);

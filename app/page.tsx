@@ -118,12 +118,23 @@ export default function Home() {
     if (!jobDescription.trim()) { setError(t.validation); return; }
     setLoading(true);
     try {
-      const requestId = crypto.randomUUID();
+      const clientRequestId = crypto.randomUUID();
       const response = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile, jobDescription, jobUrl, locale, requestId }),
+        body: JSON.stringify({ profile, jobDescription, jobUrl, locale, requestId: clientRequestId }),
       });
       if (response.status === 202) {
+        const accepted: unknown = await response.json().catch(() => undefined);
+        const requestId = isRecord(accepted) && typeof accepted.requestId === 'string' ? accepted.requestId : clientRequestId;
+        const started = await fetch('/.netlify/functions/analyze-background', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ profile, jobDescription, jobUrl, locale, requestId }),
+        });
+        if (started.status !== 202) {
+          throw new Error(locale === 'zh-Hant'
+            ? `無法啟動背景分析（HTTP ${started.status}），請稍後再試。`
+            : `Could not start background analysis (HTTP ${started.status}). Please try again.`);
+        }
         setBackgroundQueued(true);
         const result = await waitForAnalysis(requestId, locale);
         setReport(result);
