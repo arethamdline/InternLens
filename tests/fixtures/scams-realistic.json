@@ -1,0 +1,17 @@
+[
+  {"name": "refundable deposit", "locale": "en", "description": "A refundable deposit of HK$500 is required to secure your internship place."},
+  {"name": "training materials payment", "locale": "en", "description": "Interns must pay HK$300 for training materials before starting."},
+  {"name": "bank account and banking login", "locale": "en", "description": "Please provide your bank account number and online banking login so we can pay your allowance."},
+  {"name": "WhatsApp-only, no interview", "locale": "en", "description": "Contact us only via WhatsApp: no interview needed, start tomorrow!"},
+  {"name": "high daily pay, no experience", "locale": "en", "description": "Earn HK$1,500 per day from home, no experience required."},
+  {"name": "admin fee to confirm offer", "locale": "en", "description": "Pay an admin fee of HK$200 to confirm your offer."},
+  {"name": "HKID copy to reserve interview", "locale": "en", "description": "Send a copy of your HKID card via WhatsApp to reserve your interview slot."},
+  {"name": "Telegram contact and high daily pay", "locale": "en", "description": "Add our HR manager on Telegram to receive your task list. Daily pay HK$1,000, no experience needed."},
+  {"name": "buy USDT for verification", "locale": "en", "description": "Your first task: buy HK$500 of USDT and send it to the company wallet for verification."},
+  {"name": "share OTP", "locale": "en", "description": "Share the one-time password (OTP) sent to your phone so we can set up your payroll."},
+  {"name": "training fee before starting (zh)", "locale": "zh-Hant", "description": "入職前需繳付HK$500培訓費。"},
+  {"name": "transfer handling fee (zh)", "locale": "zh-Hant", "description": "請先轉帳$300手續費以確認實習名額。"},
+  {"name": "HKID copy and bank account (zh)", "locale": "zh-Hant", "description": "請提供身份證副本及銀行戶口資料。"},
+  {"name": "high daily pay, WhatsApp only (zh)", "locale": "zh-Hant", "description": "日薪$1,200，無需經驗，只限WhatsApp聯絡。"},
+  {"name": "deposit refunded after internship (zh)", "locale": "zh-Hant", "description": "需先繳交$800按金，完成實習後退還。"}
+]

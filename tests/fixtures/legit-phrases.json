@@ -1,0 +1,18 @@
+[
+  {"name": "no fee statement", "locale": "en", "description": "We never charge any application fee."},
+  {"name": "no registration fee", "locale": "en", "description": "There is no registration fee for this programme."},
+  {"name": "monthly allowance", "locale": "en", "description": "The internship offers a monthly allowance of HK$12,000."},
+  {"name": "training provided", "locale": "en", "description": "Training will be provided during the first week."},
+  {"name": "payroll details after offer", "locale": "en", "description": "Bank account details for payroll will be collected after you sign the offer letter."},
+  {"name": "HKID on first day", "locale": "en", "description": "Please bring your HKID card on your first day for employment records."},
+  {"name": "WhatsApp as one option", "locale": "en", "description": "Questions? You may also reach our HR team on WhatsApp during office hours, or by email."},
+  {"name": "no experience, normal hourly pay", "locale": "en", "description": "No prior experience required; full training will be provided. Allowance: HK$80 per hour."},
+  {"name": "equipment provided", "locale": "en", "description": "Interns do not need to purchase any equipment; a laptop will be provided."},
+  {"name": "never asked to pay", "locale": "en", "description": "Applicants will never be asked to transfer money or pay a deposit."},
+  {"name": "ID after accepting offer", "locale": "en", "description": "After you accept the offer, HR will ask you to submit a copy of your HKID for payroll."},
+  {"name": "crypto as a job topic", "locale": "en", "description": "Interest in cryptocurrency markets and blockchain research is a plus."},
+  {"name": "no fee statement (zh)", "locale": "zh-Hant", "description": "本計劃不收取任何報名費。"},
+  {"name": "monthly allowance (zh)", "locale": "zh-Hant", "description": "實習生每月津貼為HK$12,000。"},
+  {"name": "payroll details after signing (zh)", "locale": "zh-Hant", "description": "簽約後請提供銀行戶口以便發放薪金。"},
+  {"name": "company pays transport (zh)", "locale": "zh-Hant", "description": "公司會支付實習期間的交通費。"}
+]
