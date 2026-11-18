@@ -1,0 +1,8 @@
+{
+  "p1-cs-y2": {"degree": "BSc Computer Science", "yearOfStudy": "Year 2", "expectedGraduation": "June 2028", "skills": "Python", "workAuthorization": "Local student"},
+  "p2-bba-finance-y3": {"degree": "BBA Finance", "yearOfStudy": "Year 3", "expectedGraduation": "December 2027", "skills": "Excel, accounting", "workAuthorization": "Local student"},
+  "p3-econ-y1": {"degree": "BA Economics", "yearOfStudy": "Year 1", "expectedGraduation": "June 2029", "skills": "Research", "workAuthorization": "Local student"},
+  "p4-mech-eng-y4": {"degree": "BEng Mechanical Engineering", "yearOfStudy": "Year 4", "expectedGraduation": "June 2027", "skills": "CAD, Python", "workAuthorization": "Local student"},
+  "p5-msc-data-science": {"degree": "MSc Data Science", "yearOfStudy": "Postgraduate", "expectedGraduation": "December 2026", "skills": "SQL, Python, statistics", "workAuthorization": "Non-local student; conditions to be confirmed"},
+  "p6-llb-y2": {"degree": "LLB", "yearOfStudy": "Year 2", "expectedGraduation": "June 2028", "skills": "Writing, research", "workAuthorization": "Unsure"}
+}

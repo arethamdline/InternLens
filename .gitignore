@@ -12,3 +12,8 @@ data/*.sqlite-*
 *.log
 
 tsconfig.tsbuildinfo
+
+# Evaluation: real postings cannot be committed (site terms); raw model outputs quote them.
+eval/postings/private/*
+!eval/postings/private/README.md
+eval/results/raw/

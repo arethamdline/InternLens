@@ -155,3 +155,9 @@ npm run build
 ```
 
 Tests use synthetic text and do not include unlicensed job listings.
+
+To measure the live model against the proposal targets (extraction, label agreement, false Met, scam warnings, safe failures), see [`eval/README.md`](eval/README.md):
+
+```sh
+npm run eval -- --base-url http://localhost:3000
+```
