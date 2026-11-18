@@ -233,7 +233,7 @@ export default function Home() {
           </section>
           <section className="result-group credibility-group"><div className="result-title"><span className="result-number">B</span><div><p className="section-index">{locale === 'zh-Hant' ? '公開資訊' : 'PUBLIC INFORMATION'}</p><h3>{t.credibility}</h3></div></div><p className="result-summary">{report.credibility.summary}</p>
             <div className="requirement-list">{report.credibility.signals.map((signal, index) => <article className="requirement-row signal-row" key={`${signal.signal}-${index}`}><div className="requirement-top"><span className="row-number">S{String(index + 1).padStart(2, '0')}</span><h4>{signal.signal}</h4><StatusPill status={signal.status} locale={locale} /></div><p className="explanation">{signal.explanation}</p>{signal.evidence && <blockquote><span>{t.evidence}</span><q>{signal.evidence}</q></blockquote>}{signal.sourceUrl && <a className="source-proof" href={signal.sourceUrl} target="_blank" rel="noreferrer">{locale === 'zh-Hant' ? '查看來源 ↗' : 'View source ↗'}</a>}</article>)}</div><p className="disclaimer">{report.credibility.disclaimer}</p>
-          </section><GlassButton className="text-button restart" onClick={clearForm}>{t.startAgain} ↗</GlassButton>
+          </section><GlassButton type="button" className="text-button restart" onClick={clearForm}>{t.startAgain} ↗</GlassButton>
         </div> : <div className="report-placeholder"><div className="placeholder-lines"><span/><span/><span/><span/><span/></div><div className="placeholder-note"><span>—</span><p>{t.noSaving}</p></div></div>}
       </aside>
     </div>
